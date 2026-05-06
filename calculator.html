@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a08">
+<meta name="description" content="JESTER — ფასის კალკულატორი. სამშენებლო ნარჩენების გატანა თბილისში.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="JESTER — ფასის კალკულატორი">
+<meta property="og:url" content="https://nikamattoo.github.io/JesterCrew-/calculator.html">
+<meta property="og:locale" content="ka_GE">
+<link rel="canonical" href="https://nikamattoo.github.io/JesterCrew-/calculator.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+Georgian:wght@400;600;700&display=swap" rel="stylesheet">
+<title>JESTER — ფასის კალკულატორი</title>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1668873824453687');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1668873824453687&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#0a0a08;scroll-behavior:smooth}
+body{background:#0a0a08;color:#F0EBD8;font-family:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;min-height:100vh}
+a{text-decoration:none;color:inherit}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,8,.96);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,.15);padding:0 20px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-brand{font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:20px;letter-spacing:.08em;color:#F0EBD8}
+.nav-back{display:flex;align-items:center;gap:6px;border:1px solid rgba(201,168,76,.25);border-radius:3px;padding:8px 14px;font-family:'Noto Sans Georgian','Noto Sans',system-ui,sans-serif;font-size:12px;color:#8a8470;text-decoration:none;transition:color .15s,border-color .15s}
+.nav-back:hover{color:#C9A84C;border-color:rgba(201,168,76,.5)}
+
+.page{padding-top:60px;min-height:100vh;display:flex;flex-direction:column}
+.calc-page-hdr{background:#111110;border-bottom:1px solid rgba(201,168,76,.15);padding:18px 20px 16px;text-align:center}
+.calc-page-title{font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:15px;color:#F0EBD8;letter-spacing:.08em;text-transform:uppercase}
+.calc-page-title span{color:#C9A84C}
+
+.calc-scroll{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.ci{max-width:600px;margin:0 auto;padding:0 16px 100px}
+.cs{margin-top:24px}
+.sec-lbl{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.sec-num{width:22px;height:22px;border:1px solid #C9A84C;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:9px;color:#C9A84C;flex-shrink:0}
+.sec-txt{font-size:9px;font-weight:700;letter-spacing:.28em;color:#C9A84C;text-transform:uppercase;font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif}
+.sec-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(201,168,76,.15),transparent)}
+
+.dtog{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(201,168,76,.15);border-radius:2px;overflow:hidden}
+.db{padding:16px 10px;text-align:center;cursor:pointer;background:#111110;-webkit-tap-highlight-color:transparent;transition:background .15s;border-right:1px solid rgba(201,168,76,.15)}
+.db:last-child{border-right:none}
+.db.active{background:#F0EBD8}
+.db-ico{font-size:24px;margin-bottom:6px;display:block}
+.db-n{font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:12px;color:#F0EBD8;display:block;letter-spacing:.06em;text-transform:uppercase}
+.db.active .db-n{color:#0a0a08}
+.db-ka{font-family:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:10px;color:#8a8470;display:block;margin-top:3px;line-height:1.4}
+.db.active .db-ka{color:rgba(10,10,8,.6)}
+.db-tag{font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:9px;color:#C9A84C;display:block;margin-top:5px;letter-spacing:.06em}
+.db.active .db-tag{color:#1a1a16}
+
+.wgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.wcard{background:#111110;border:1px solid rgba(201,168,76,.15);border-radius:2px;padding:12px 8px;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s,border-color .15s}
+.wcard.active{background:#F0EBD8;border-color:#C9A84C}
+.wc-ico{font-size:18px;margin-bottom:5px}
+.wc-en{font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:12px;color:#F0EBD8;margin-bottom:2px;display:block;text-transform:uppercase;letter-spacing:.04em}
+.wcard.active .wc-en{color:#0a0a08}
+.wc-ka{font-family:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:9px;color:#8a8470;margin-bottom:6px;display:block}
+.wcard.active .wc-ka{color:rgba(10,10,8,.55)}
+.wc-p{font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:18px;color:#C9A84C;display:block}
+.wcard.active .wc-p{color:#1a1a16}
+.wc-v{font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:9px;color:#8a8470;margin-top:1px;display:block;letter-spacing:.04em}
+.wcard.active .wc-v{color:rgba(10,10,8,.4)}
+
+.cc{background:#DDD7C4;border:1px solid rgba(10,10,8,.1);border-radius:2px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.cc+.cc{margin-top:8px}
+.cc-l{font-family:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:13px;font-weight:700;color:#0a0a08}
+.cc-s{font-family:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:10px;color:rgba(10,10,8,.5);margin-top:2px}
+.cc-b{display:inline-block;margin-top:4px;background:#0a0a08;color:#C9A84C;font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:10px;padding:2px 8px;border-radius:1px;letter-spacing:.06em}
+
+.ctr{display:flex;align-items:center;background:#0a0a08;border-radius:2px;overflow:hidden;flex-shrink:0}
+.cb{width:36px;height:36px;background:none;border:none;color:#C9A84C;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+.cv{width:40px;text-align:center;font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:18px;color:#F0EBD8;border-left:1px solid rgba(201,168,76,.15);border-right:1px solid rgba(201,168,76,.15);padding:7px 0}
+
+.fi{width:72px;background:#0a0a08;border:1px solid rgba(201,168,76,.15);border-radius:2px;padding:8px 6px;text-align:center;font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:18px;color:#F0EBD8;-webkit-text-fill-color:#F0EBD8;flex-shrink:0}
+.fi:focus{outline:none;border-color:#C9A84C}
+
+.tgsw{width:48px;height:26px;background:#5a5448;border-radius:13px;position:relative;-webkit-transition:background .2s;transition:background .2s;flex-shrink:0;cursor:pointer}
+.tgsw.on{background:#C9A84C}
+.tgkn{width:20px;height:20px;background:white;border-radius:50%;position:absolute;top:3px;left:3px;-webkit-transition:left .2s;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.tgsw.on .tgkn{left:25px}
+
+.sg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.sb{background:#111110;border:1px solid rgba(201,168,76,.15);border-radius:2px;padding:12px 6px;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s,border-color .15s}
+.sb.active{background:#F0EBD8;border-color:#C9A84C}
+.sb-ico{font-size:16px;margin-bottom:3px;display:block}
+.sb-n{font-family:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:10px;font-weight:700;color:#F0EBD8;line-height:1.3;display:block}
+.sb.active .sb-n{color:#0a0a08}
+.sb-f{font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:11px;color:#C9A84C;margin-top:2px;display:block;letter-spacing:.04em}
+.sb.active .sb-f{color:#1a1a16}
+
+.sw{position:relative}
+.sw select{width:100%;appearance:none;-webkit-appearance:none;background:#DDD7C4;border:1px solid rgba(10,10,8,.15);border-radius:2px;padding:13px 40px 13px 14px;font-family:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:13px;font-weight:600;color:#0a0a08;cursor:pointer}
+#districtDual .sw select{padding:10px 28px 10px 10px;font-size:11px}
+.sw select:focus{outline:none;border-color:#C9A84C}
+.sw-arr{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#1a1a16;font-size:11px;pointer-events:none}
+
+.twarn{margin-top:8px;border:1px solid rgba(201,168,76,.25);border-left:3px solid #C9A84C;background:#1a1a16;border-radius:2px;padding:12px 14px}
+.twarn-t{font-family:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:11px;color:#8a8470;line-height:1.65}
+.twarn-t strong{color:#C9A84C}
+
+.rc{background:#111110;border:1px solid rgba(201,168,76,.15);border-radius:2px;overflow:hidden;margin-top:20px}
+.rt{background:#1a1a16;padding:28px 20px 22px;text-align:center;border-bottom:1px solid rgba(201,168,76,.15)}
+.rl{font-size:9px;font-weight:700;letter-spacing:.35em;color:#C9A84C;text-transform:uppercase;margin-bottom:8px;font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif}
+.rp{font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:72px;line-height:1;color:#F0EBD8}
+.rp .lari{font-size:34px;color:#C9A84C;vertical-align:super;margin-right:2px}
+.rn{font-family:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:9px;color:#8a8470;margin-top:8px;line-height:1.65}
+.bk-wrap{padding:16px 20px}
+.bk-title{font-size:8px;font-weight:700;letter-spacing:.3em;color:#C9A84C;text-transform:uppercase;margin-bottom:10px;font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif}
+.brow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(201,168,76,.15);font-size:12px}
+.brow:last-child{border-bottom:none}
+.bk{color:#8a8470;font-family:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif}
+.bv{font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;color:#F0EBD8;font-size:13px;letter-spacing:.04em}
+.bv.gold{color:#C9A84C;font-size:16px}
+.bdiv{height:1px;background:rgba(201,168,76,.15);margin:6px 0}
+.pn{margin:0 20px 14px;border:1px solid rgba(201,168,76,.15);border-radius:2px;padding:12px 14px;text-align:center;background:#1a1a16}
+.pn-ico{font-size:18px;margin-bottom:5px}
+.pn-t{font-family:'Noto Sans Georgian','Noto Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:11px;color:#8a8470;line-height:1.6}
+.wa-cta{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;background:#25D366;color:white;border:none;border-radius:0 0 2px 2px;padding:18px 20px;font-family:'Anton',Impact,'Arial Narrow',Arial,sans-serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;text-decoration:none;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+.wa-orb{width:28px;height:28px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#25D366}
+
+.db:focus,.wcard:focus,.sb:focus,.cb:focus{outline:2px solid #C9A84C;outline-offset:2px}
+.fi:focus,.sw select:focus{outline:2px solid #C9A84C;outline-offset:1px}
+.tgsw:focus{outline:2px solid #C9A84C;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <span class="nav-brand">JESTER</span>
+  </a>
+  <a class="nav-back" href="index.html">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6H4M6 4l-2 2 2 2"/></svg>
+    მთავარი გვერდი
+  </a>
+</nav>
+
+<div class="page">
+  <div class="calc-page-hdr">
+    <div class="calc-page-title"><span>JESTER</span> — ფასის კალკულატორი</div>
+  </div>
+  <div class="calc-scroll">
+    <div class="ci">
+
+      <div class="cs">
+        <div class="sec-lbl"><span class="sec-num">0</span><span class="sec-txt">სერვისის ტიპი</span><span class="sec-line"></span></div>
+        <div class="dtog">
+          <div class="db active" id="svcJunk"><span class="db-ico">🗑️</span><span class="db-n">Junk Removal</span><span class="db-ka">ნარჩენების გატანა</span><span class="db-tag">ნაგავსაყრელის ჩათვლით</span></div>
+          <div class="db" id="svcMove"><span class="db-ico">📦</span><span class="db-n">Moving &amp; Delivery</span><span class="db-ka">გადაზიდვა და მიტანა</span><span class="db-tag">ნაგავსაყრელის გარეშე</span></div>
+        </div>
+      </div>
+
+      <div class="cs">
+        <div class="sec-lbl"><span class="sec-num">1</span><span class="sec-txt">მომსახურების დონე</span><span class="sec-line"></span></div>
+        <div class="dtog">
+          <div class="db active" id="lvlFull"><span class="db-ico">💪</span><span class="db-n">Full Service</span><span class="db-ka">სრული სერვისი (მუშებით)</span><span class="db-tag">ჩვენ ვტვირთავთ</span></div>
+          <div class="db" id="lvlTruck"><span class="db-ico">🚛</span><span class="db-n">სატვირთო მანქანა</span><span class="db-ka">მხოლოდ სატვირთო მანქანა</span><span class="db-tag">1 სამუშაო სთ-ს მოიცავს</span></div>
+        </div>
+        <div class="twarn" id="truckWarn" style="display:none">
+          <div class="twarn-t"><strong>მნიშვნელოვანი:</strong> სატვირთო მანქანა მოიცავს <strong>1 სამუშაო სთ-ს</strong> (60 წუთი). დამატებითი: <strong>+₾30 ყოველ 30 წუთში</strong>. გთხოვთ, მზად დაგვხვდეთ.</div>
+        </div>
+      </div>
+
+      <div class="cs">
+        <div class="sec-lbl"><span class="sec-num">2</span><span class="sec-txt">სამუშაოს ზომა</span><span class="sec-line"></span></div>
+        <div class="wgrid">
+          <div class="wcard active" data-size="small"><div class="wc-ico">📦</div><span class="wc-en">Small</span><span class="wc-ka">მცირე</span><span class="wc-p" id="wp0">₾130</span><span class="wc-v">≤ 2m³</span></div>
+          <div class="wcard" data-size="medium"><div class="wc-ico">🏗️</div><span class="wc-en">Medium</span><span class="wc-ka">საშუალო</span><span class="wc-p" id="wp1">₾270</span><span class="wc-v">≤ 6m³</span></div>
+          <div class="wcard" data-size="large"><div class="wc-ico">🏢</div><span class="wc-en">Large</span><span class="wc-ka">დიდი</span><span class="wc-p" id="wp2">₾550</span><span class="wc-v">≤ 15m³</span></div>
+        </div>
+      </div>
+
+      <div class="cs" id="typeSection">
+        <div class="sec-lbl"><span class="sec-num">3</span><span class="sec-txt" id="typeLabel">ნარჩენების ტიპი</span><span class="sec-line"></span></div>
+        <div class="sg" id="typeGroup"></div>
+      </div>
+
+      <div class="cs" id="districtSingle">
+        <div class="sec-lbl"><span class="sec-num">4</span><span class="sec-txt">რაიონი</span><span class="sec-line"></span></div>
+        <div class="sw">
+          <select id="district">
+            <option value="15" data-name="გლდანი / მუხიანი">გლდანი / მუხიანი — +₾15</option>
+            <option value="25" data-name="დიდუბე / ნაძალადევი">დიდუბე / ნაძალადევი — +₾25</option>
+            <option value="25" data-name="დიღომი / დიდი დიღომი">დიღომი / დიდი დიღომი — +₾25</option>
+            <option value="30" data-name="ჩუღურეთი / ძველი თბილისი">ჩუღურეთი / ძველი თბილისი — +₾30</option>
+            <option value="35" data-name="ისანი / ავლაბარი / ორთაჭალა">ისანი / ავლაბარი / ორთაჭალა — +₾35</option>
+            <option value="35" data-name="სამგორი">სამგორი — +₾35</option>
+            <option value="40" data-name="ვაკე">ვაკე — +₾40</option>
+            <option value="40" data-name="ლილო">ლილო — +₾40</option>
+            <option value="40" data-name="ვარკეთილი / ვაზისუბანი">ვარკეთილი / ვაზისუბანი — +₾40</option>
+            <option value="45" data-name="საბურთალო">საბურთალო — +₾45</option>
+            <option value="50" data-name="მთაწმინდა / კრწანისი">მთაწმინდა / კრწანისი — +₾50</option>
+            <option value="60" data-name="წყნეთი">წყნეთი — +₾60</option>
+            <option value="80" data-name="კოჯორი">კოჯორი — +₾80</option>
+          </select>
+          <span class="sw-arr">▼</span>
+        </div>
+      </div>
+
+      <div class="cs" id="districtDual" style="display:none">
+        <div class="sec-lbl"><span class="sec-num">4</span><span class="sec-txt">რაიონი / უბანი</span><span class="sec-line"></span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <div style="font-family:'Noto Sans Georgian',system-ui,sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;color:#C9A84C;text-transform:uppercase;margin-bottom:6px">საიდან</div>
+            <div class="sw"><select id="districtFrom">
+              <option value="15" data-name="გლდანი">გლდანი</option><option value="15" data-name="მუხიანი">მუხიანი</option><option value="25" data-name="დიდუბე">დიდუბე</option><option value="25" data-name="ნაძალადევი">ნაძალადევი</option><option value="25" data-name="დიღომი">დიღომი</option><option value="25" data-name="დიდი დიღომი">დიდი დიღომი</option><option value="30" data-name="ჩუღურეთი">ჩუღურეთი</option><option value="30" data-name="ძველი თბილისი">ძველი თბილისი</option><option value="35" data-name="ისანი">ისანი</option><option value="35" data-name="ავლაბარი">ავლაბარი</option><option value="35" data-name="ორთაჭალა">ორთაჭალა</option><option value="35" data-name="სამგორი">სამგორი</option><option value="40" data-name="ვაკე">ვაკე</option><option value="40" data-name="ლილო">ლილო</option><option value="40" data-name="ვარკეთილი">ვარკეთილი</option><option value="40" data-name="ვაზისუბანი">ვაზისუბანი</option><option value="45" data-name="საბურთალო">საბურთალო</option><option value="50" data-name="მთაწმინდა">მთაწმინდა</option><option value="50" data-name="კრწანისი">კრწანისი</option><option value="60" data-name="წყნეთი">წყნეთი</option><option value="80" data-name="კოჯორი">კოჯორი</option>
+            </select><span class="sw-arr">▼</span></div>
+          </div>
+          <div>
+            <div style="font-family:'Noto Sans Georgian',system-ui,sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;color:#C9A84C;text-transform:uppercase;margin-bottom:6px">სად</div>
+            <div class="sw"><select id="districtTo">
+              <option value="15" data-name="გლდანი">გლდანი</option><option value="15" data-name="მუხიანი">მუხიანი</option><option value="25" data-name="დიდუბე">დიდუბე</option><option value="25" data-name="ნაძალადევი">ნაძალადევი</option><option value="25" data-name="დიღომი">დიღომი</option><option value="25" data-name="დიდი დიღომი">დიდი დიღომი</option><option value="30" data-name="ჩუღურეთი">ჩუღურეთი</option><option value="30" data-name="ძველი თბილისი">ძველი თბილისი</option><option value="35" data-name="ისანი">ისანი</option><option value="35" data-name="ავლაბარი">ავლაბარი</option><option value="35" data-name="ორთაჭალა">ორთაჭალა</option><option value="35" data-name="სამგორი">სამგორი</option><option value="40" data-name="ვაკე">ვაკე</option><option value="40" data-name="ლილო">ლილო</option><option value="40" data-name="ვარკეთილი">ვარკეთილი</option><option value="40" data-name="ვაზისუბანი">ვაზისუბანი</option><option value="45" data-name="საბურთალო">საბურთალო</option><option value="50" data-name="მთაწმინდა">მთაწმინდა</option><option value="50" data-name="კრწანისი">კრწანისი</option><option value="60" data-name="წყნეთი">წყნეთი</option><option value="80" data-name="კოჯორი">კოჯორი</option>
+            </select><span class="sw-arr">▼</span></div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:#8a8470;margin-top:8px;line-height:1.6;font-family:'Noto Sans Georgian',system-ui,sans-serif">მოცემული მანძილი გავლენას ახდენს ტრანსპორტის ღირებულებაზე</div>
+      </div>
+
+      <div class="cs" id="floorSection">
+        <div class="sec-lbl"><span class="sec-num">5</span><span class="sec-txt">სართული და ლიფტი</span><span class="sec-line"></span></div>
+        <div class="cc"><div><div class="cc-l">სართული</div><div class="cc-s">სართულის ნომერი</div></div><input class="fi" id="floorNum" type="number" min="1" max="50" value="1" pattern="[0-9]*"></div>
+        <div class="cc" id="liftRow" style="cursor:pointer;margin-top:8px">
+          <div><div class="cc-l">ლიფტი</div><div class="cc-s" id="liftSub">ლიფტი მუშაობს</div><span class="cc-b" id="liftBadge">+₾0</span></div>
+          <div class="tgsw on" id="liftSw"><div class="tgkn"></div></div>
+        </div>
+      </div>
+
+      <div class="cs" id="bagsSection">
+        <div class="sec-lbl"><span class="sec-num">6</span><span class="sec-txt">სამშენებლო ნაგავი (შაშკა)</span><span class="sec-line"></span></div>
+        <div class="cc"><div><div class="cc-l">ტომრების რაოდენობა</div><div class="cc-s">₾10 თითო ტომარა</div></div>
+          <div class="ctr"><button class="cb" id="btnMinus">−</button><div class="cv" id="bagCount">0</div><button class="cb" id="btnPlus">+</button></div>
+        </div>
+      </div>
+
+      <div class="cs">
+        <div class="sec-lbl"><span class="sec-num" id="extrasNum">7</span><span class="sec-txt">დამატებები</span><span class="sec-line"></span></div>
+        <div class="cc" id="urgRow" style="cursor:pointer"><div><div class="cc-l">სასწრაფო გამოძახება</div><div class="cc-s">დღესვე</div><span class="cc-b">+₾40</span></div><div class="tgsw" id="urgSw"><div class="tgkn"></div></div></div>
+        <div class="cc" id="parkRow" style="cursor:pointer;margin-top:8px"><div><div class="cc-l">რთული პარკირება</div><div class="cc-s">ვიწრო ქუჩა / ძველი თბილისი</div><span class="cc-b">+₾20</span></div><div class="tgsw" id="parkSw"><div class="tgkn"></div></div></div>
+      </div>
+
+      <div class="rc">
+        <div class="rt">
+          <div class="rl">სავარაუდო ფასი</div>
+          <div class="rp"><span class="lari">₾</span><span id="priceNum">130</span></div>
+          <div class="rn">სავარაუდო ფასი · საბოლოო დადასტურდება ფოტოებისა და ადგილზე შემოწმების შემდეგ</div>
+        </div>
+        <div class="bk-wrap">
+          <div class="bk-title">დეტალიზაცია</div>
+          <div class="brow"><span class="bk" id="bdBaseKey">საბაზისო (სრული სერვისი)</span><span class="bv" id="bdBase">₾130</span></div>
+          <div class="brow"><span class="bk" id="bdTypeLabel">ნარჩენის ტიპი</span><span class="bv" id="bdType">×1.0</span></div>
+          <div class="brow"><span class="bk" id="bdTransKey">რაიონი</span><span class="bv" id="bdTrans">₾0</span></div>
+          <div class="brow" style="display:none" id="bdFloorRow"><span class="bk">სართული (ლიფტის გარეშე)</span><span class="bv" id="bdFloor">₾0</span></div>
+          <div class="brow" style="display:none" id="bdBagsRow"><span class="bk">შაშკა (ტომრები)</span><span class="bv" id="bdBags">₾0</span></div>
+          <div class="brow" style="display:none" id="bdUrgRow"><span class="bk">სასწრაფო გამოძახება</span><span class="bv gold">+₾40</span></div>
+          <div class="brow" style="display:none" id="bdParkRow"><span class="bk">რთული პარკირება</span><span class="bv gold">+₾20</span></div>
+          <div class="bdiv"></div>
+          <div class="brow"><span class="bk" style="color:#F0EBD8;font-weight:700;font-family:'Noto Sans Georgian','Noto Sans',system-ui,sans-serif">სულ</span><span class="bv gold" id="bdTotal">₾130</span></div>
+        </div>
+        <div class="pn"><div class="pn-ico">📷</div><div class="pn-t">გამოგვიგზავნეთ ფოტოები WhatsApp-ზე — ზუსტი ფასი 15 წუთში</div></div>
+        <a class="wa-cta" id="waBtn" href="#" target="_blank">
+          <div class="wa-orb"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></div>
+          დაჯავშნა WhatsApp-ით
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var PRICES={junk:{full:{small:130,medium:270,large:550},truck:{small:100,medium:210,large:420}},move:{full:{small:140,medium:290,large:580},truck:{small:110,medium:230,large:460}}};
+  var TYPE_OPTIONS={junk:[{icon:'🛋️',name:'საყოფაცხოვრებო',factor:1.0,label:'×1.0'},{icon:'🧱',name:'სარემონტო',factor:1.25,label:'×1.25'},{icon:'⚠️',name:'სახიფათო',factor:2.0,label:'×2.0'}],move:[{icon:'🛋️',name:'ავეჯი / ნივთები',factor:1.0,label:'×1.0'},{icon:'🏗️',name:'სამშ. მასალები',factor:1.2,label:'×1.2'},{icon:'🫙',name:'მსხვრევადი',factor:1.4,label:'×1.4'}]};
+  var svc='junk',lvl='full',size='small',typeFactor=1.0,typeLabel='საყოფაცხოვრებო (×1.0)',liftOn=true,urgOn=false,parkOn=false,bags=0;
+  function r5(n){return Math.round(n/5)*5;}
+  function el(id){return document.getElementById(id);}
+  function showEl(id){var e=el(id);if(e)e.style.display='flex';}
+  function hideEl(id){var e=el(id);if(e)e.style.display='none';}
+  function getFloor(){var v=parseInt(el('floorNum').value);return isNaN(v)?1:Math.max(1,v);}
+  function isMove(){return svc==='move';}
+  function getDist(){if(isMove()){var sf=el('districtFrom'),st=el('districtTo');if(!sf||!st)return 0;return Math.max(parseInt(sf.options[sf.selectedIndex].value)||0,parseInt(st.options[st.selectedIndex].value)||0);}var s=el('district');return s?(parseInt(s.options[s.selectedIndex].value)||0):0;}
+  function getDistFrom(){var sf=el('districtFrom');return sf?sf.options[sf.selectedIndex].getAttribute('data-name'):'';}
+  function getDistTo(){var st=el('districtTo');return st?st.options[st.selectedIndex].getAttribute('data-name'):'';}
+  function getDistName(){if(isMove())return getDistFrom()+' → '+getDistTo();var s=el('district');return s?s.options[s.selectedIndex].getAttribute('data-name'):'';}
+  function buildTypes(){var grp=el('typeGroup');if(!grp)return;grp.innerHTML='';var opts=TYPE_OPTIONS[svc];typeFactor=opts[0].factor;typeLabel=opts[0].name+' ('+opts[0].label+')';opts.forEach(function(opt,i){var btn=document.createElement('div');btn.className='sb'+(i===0?' active':'');btn.innerHTML='<span class="sb-ico">'+opt.icon+'</span><span class="sb-n">'+opt.name+'</span><span class="sb-f">'+opt.label+'</span>';btn.addEventListener('click',function(){grp.querySelectorAll('.sb').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');typeFactor=opt.factor;typeLabel=opt.name+' ('+opt.label+')';calc();});grp.appendChild(btn);});var tl=el('typeLabel');if(tl)tl.textContent=svc==='junk'?'ნარჩენების ტიპი':'ტვირთის ტიპი';var bl=el('bdTypeLabel');if(bl)bl.textContent=svc==='junk'?'ნარჩენის ტიპი':'ტვირთის ტიპი';}
+  function updatePrices(){var m=PRICES[svc][lvl];el('wp0').textContent='₾'+m.small;el('wp1').textContent='₾'+m.medium;el('wp2').textContent='₾'+m.large;}
+  function calc(){try{var base=PRICES[svc][lvl][size],dist=getDist(),floor=getFloor(),floorCharge=(!liftOn&&lvl==='full'&&floor>1)?(floor-1)*15:0,bagCost=(lvl==='full')?bags*10:0,urgFee=urgOn?40:0,parkFee=parkOn?20:0,total=Math.max(120,r5(base*typeFactor+dist+floorCharge+bagCost+urgFee+parkFee));el('priceNum').textContent=total;el('bdBase').textContent='₾'+base;el('bdType').textContent=typeFactor===1.0?'×1.0':typeFactor===1.25?'×1.25':typeFactor===1.2?'×1.2':typeFactor===1.4?'×1.4':'×2.0';el('bdTrans').textContent=(dist>0?'+₾':'₾')+dist;var bdTK=el('bdTransKey');if(bdTK)bdTK.textContent=isMove()?(getDistFrom()+' → '+getDistTo()):'რაიონი';el('bdTotal').textContent='₾'+total;if(!liftOn&&lvl==='full'&&floor>1){showEl('bdFloorRow');el('bdFloor').textContent='+₾'+floorCharge;}else{hideEl('bdFloorRow');}if(lvl==='full'&&bags>0){showEl('bdBagsRow');el('bdBags').textContent='+₾'+bagCost;}else{hideEl('bdBagsRow');}if(urgOn)showEl('bdUrgRow');else hideEl('bdUrgRow');if(parkOn)showEl('bdParkRow');else hideEl('bdParkRow');var lb=el('liftBadge');if(lb)lb.textContent=(liftOn||floor<=1)?'+₾0':'+₾'+((floor-1)*15);var svcN=svc==='junk'?'ნარჩენების გატანა':'გადაზიდვა / მიტანა',lvlN=lvl==='full'?'სრული სერვისი (მუშებით)':'მხოლოდ სატვირთო მანქანა',szN={small:'მცირე (2m³-მდე)',medium:'საშუალო (6m³-მდე)',large:'დიდი (15m³-მდე)'}[size],ex=[];if(urgOn)ex.push('სასწრაფო გამოძახება (+₾40)');if(parkOn)ex.push('რთული პარკირება (+₾20)');var msg='გამარჯობა Jester!\n\nმჭირდება *'+svcN+'* — *'+lvlN+'*\n\nდეტალები:\n• ზომა: '+szN+'\n• ტიპი: '+typeLabel+'\n';if(isMove()){msg+='• საიდან: '+getDistFrom()+'\n• სად: '+getDistTo()+'\n';}else{msg+='• რაიონი: '+getDistName()+'\n';}if(lvl==='full'){msg+='• სართული: '+floor+' — '+(liftOn?'ლიფტი - კი':'ლიფტი - არა')+'\n';if(bags>0)msg+='• შაშკა: '+bags+' ტომარა (+₾'+bagCost+')\n';}if(ex.length)msg+='• დამატებები: '+ex.join(', ')+'\n';msg+='\nსავარაუდო ფასი: *₾'+total+'*\n\nფოტოებს გადმოგიგზავნით დასაზუსტებლად.';var wb=el('waBtn');if(wb)wb.href='https://wa.me/995591186343?text='+encodeURIComponent(msg);}catch(e){console.error('calc error',e);}}
+  function setSvc(s){svc=s;el('svcJunk').classList.toggle('active',s==='junk');el('svcMove').classList.toggle('active',s==='move');var ds=el('districtSingle'),dd=el('districtDual');if(s==='move'){if(ds)ds.style.display='none';if(dd)dd.style.display='block';}else{if(ds)ds.style.display='block';if(dd)dd.style.display='none';}buildTypes();updatePrices();calc();}
+  function setLvl(l){lvl=l;el('lvlFull').classList.toggle('active',l==='full');el('lvlTruck').classList.toggle('active',l==='truck');var fs=el('floorSection'),bs=el('bagsSection'),tw=el('truckWarn'),en=el('extrasNum');if(l==='truck'){if(fs)fs.style.display='none';if(bs)bs.style.display='none';if(tw)tw.style.display='block';if(en)en.textContent='5';}else{if(fs)fs.style.display='block';if(bs)bs.style.display='block';if(tw)tw.style.display='none';if(en)en.textContent='7';}var bk=el('bdBaseKey');if(bk)bk.textContent=l==='full'?'საბაზისო (სრული სერვისი)':'საბაზისო (სატვირთო მანქანა)';updatePrices();calc();}
+  function setSize(s){size=s;document.querySelectorAll('.wcard').forEach(function(c){c.classList.toggle('active',c.getAttribute('data-size')===s);});calc();}
+  function togLift(){liftOn=!liftOn;var sw=el('liftSw');if(sw)sw.classList.toggle('on',liftOn);var sub=el('liftSub');if(sub)sub.textContent=liftOn?'ლიფტი მუშაობს':'ლიფტი არ არის — ₾15/სართული';calc();}
+  function togUrg(){urgOn=!urgOn;el('urgSw').classList.toggle('on',urgOn);calc();}
+  function togPark(){parkOn=!parkOn;el('parkSw').classList.toggle('on',parkOn);calc();}
+  function init(){
+    ['bdFloorRow','bdBagsRow','bdUrgRow','bdParkRow'].forEach(function(id){var e=el(id);if(e)e.style.display='none';});
+    el('svcJunk').addEventListener('click',function(){setSvc('junk');});
+    el('svcMove').addEventListener('click',function(){setSvc('move');});
+    el('lvlFull').addEventListener('click',function(){setLvl('full');});
+    el('lvlTruck').addEventListener('click',function(){setLvl('truck');});
+    el('liftRow').addEventListener('click',togLift);
+    el('urgRow').addEventListener('click',togUrg);
+    el('parkRow').addEventListener('click',togPark);
+    el('district').addEventListener('change',calc);
+    if(el('districtFrom'))el('districtFrom').addEventListener('change',calc);
+    if(el('districtTo'))el('districtTo').addEventListener('change',calc);
+    el('floorNum').addEventListener('input',calc);
+    el('btnMinus').addEventListener('click',function(){bags=Math.max(0,bags-1);el('bagCount').textContent=bags;calc();});
+    el('btnPlus').addEventListener('click',function(){bags++;el('bagCount').textContent=bags;calc();});
+    document.querySelectorAll('.wcard').forEach(function(card){card.addEventListener('click',function(){setSize(card.getAttribute('data-size'));});});
+    buildTypes();updatePrices();calc();
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+</body>
+</html>
